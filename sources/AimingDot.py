@@ -112,14 +112,10 @@ class App:
 
         image = Image.new("RGB", (width, height), color1)
         dc = ImageDraw.Draw(image)
-        dc.rectangle(
-            (width // 2, 0, width, height),
-            fill=color2
-        )
-        dc.rectangle(
-            (0, height // 2, width, height // 2),
-            fill=color2
-        )
+        # Draw a simple cross for the tray icon. Using lines avoids the issue of
+        # accidentally creating zero-height or zero-width rectangles.
+        dc.line((width // 2, 0, width // 2, height), fill=color2)
+        dc.line((0, height // 2, width, height // 2), fill=color2)
 
         return image
 
@@ -130,8 +126,9 @@ class App:
 
     # Function to show the main window from tray
     def show_from_tray(self, icon, item):
-        self.tray_icon.stop()
-        self.tray_icon = None
+        if self.tray_icon:
+            self.tray_icon.stop()
+            self.tray_icon = None
         self.root.deiconify()
 
     # Minimize main window to system tray
@@ -147,7 +144,8 @@ class App:
             self.mouse_listener.stop()
         if self.dot_window:
             self.dot_window.destroy()
-        self.tray_icon.stop()
+        if self.tray_icon:
+            self.tray_icon.stop()
         self.root.quit()
 
 
