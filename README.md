@@ -10,7 +10,7 @@
 
 - Minor performance improvement
 - Add icon
-- Expend the aiming dot size range
+- Expand the aiming dot size range
 
 ### V1.2.1
 
