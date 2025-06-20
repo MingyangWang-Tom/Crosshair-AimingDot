@@ -75,9 +75,25 @@ class App:
         self.dot_window.wm_attributes("-topmost", True)
         self.dot_window.wm_attributes("-transparentcolor", "white")
 
-        canvas = tk.Canvas(self.dot_window, width=size, height=size, bg="white", bd=0, highlightthickness=0)
+        # Using a 1 pixel padding prevents small dots from being clipped or
+        # appearing squared due to window borders.
+        canvas = tk.Canvas(
+            self.dot_window,
+            width=size + 2,
+            height=size + 2,
+            bg="white",
+            bd=0,
+            highlightthickness=0,
+        )
         canvas.pack()
-        canvas.create_oval(0, 0, size, size, fill=self.dot_color.get(), outline="")
+        canvas.create_oval(
+            1,
+            1,
+            size + 1,
+            size + 1,
+            fill=self.dot_color.get(),
+            outline="",
+        )
 
     def toggle_mouse_listener(self):
         if self.mouse_listener and self.mouse_listener.running:
